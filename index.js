@@ -72,6 +72,8 @@ function WSClient(connectionString = "") {
       setTimeout(this.send, 100, action, data);
     };
 
+    this.close = () => socket.close();
+
     return this;
   }
 
@@ -83,6 +85,8 @@ function WSClient(connectionString = "") {
       if (Object.values(Events).includes(action)) return;
       socket.send(action, data);
     };
+
+    this.close = () => socket.close();
   };
   const retryCreateSocket = () => {
     setTimeout(createSocket, 3000);

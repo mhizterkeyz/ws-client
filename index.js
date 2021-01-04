@@ -46,11 +46,14 @@ function WSClient(connectionString = "") {
 
     socket.onopen = (ev) => {
       callbacks.call(Events.CONNECT, ev);
+      callbacks.call("all", ev);
     };
     socket.onclose = (ev) => {
+      callbacks.call("all", ev);
       callbacks.call(Events.DISCONNECT, ev);
     };
     socket.onerror = (ev) => {
+      callbacks.call("all", ev);
       callbacks.call(Events.ERROR, ev);
     };
     socket.onmessage = ({ data: json }) => {
@@ -61,6 +64,7 @@ function WSClient(connectionString = "") {
         message = json || "";
       }
 
+      callbacks.call("all", message);
       callbacks.call(message.action, message.data);
     };
 
